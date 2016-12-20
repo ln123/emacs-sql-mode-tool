@@ -8,7 +8,7 @@
 (require 'cl-lib)
 (require 'sql)
 
-(defvar company-sql-comp '("") "completions cache")
+(defvar-local company-sql-comp '("") "completions cache")
 
 (defun company-sql-clear-cache ()
   (interactive)
@@ -16,8 +16,8 @@
 
 (defun company-sql-get-from-db (sql-string)
 ;(message "%s" sql-string) 
-  (let* ((current-sqli-buffer ;(sql-find-sqli-buffer)
-	  (get-buffer "*SQL*")
+  (let* ((current-sqli-buffer (sql-find-sqli-buffer)
+	  ;(get-buffer "*SQL*")
 	  )
 	 (output-settings (sql-redirect-value current-sqli-buffer
 					      "\\pset " "^\\([^[:blank:]]+\\)[[:blank:]]+\\(.+\\)$"
@@ -42,6 +42,7 @@
 
 (defun company-sql-completions (prefix)
 (message "%s" prefix)
+(with-current-buffer (sql-find-sqli-buffer)
   (cl-remove-if (lambda (x) (string-match-p  (concat prefix ".*[.]") x))
 		(let ((completions (or (all-completions prefix company-sql-comp) (all-completions (concat "public." prefix) company-sql-comp)))
 	(split-name (split-string  prefix "[.]")))
@@ -77,7 +78,7 @@
 								     )
 								 ";")))
 	       (or (all-completions prefix company-sql-comp) (all-completions (concat "public." prefix) company-sql-comp)))
-      completions))))
+      completions)))))
 
 
 ;;;###autoload
