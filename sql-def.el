@@ -1,14 +1,8 @@
-;; This buffer is for notes you don't want to save, and for Lisp evaluation.
-;; If you want to create a file, visit that file with C-x C-f,
-;; then enter the text in that file's own buffer.
-
-
 
 (defun SQL-Def-Open-definition ()
   (interactive)
   (let* ((outbuf  (get-buffer-create (elt (tabulated-list-get-entry) 1)))
-	 (current-sqli-buffer sql-buffer;(get-buffer "*SQL*")
-			      ) 
+	 (current-sqli-buffer sql-buffer) 
 	(output-settings (sql-redirect-value current-sqli-buffer
 					     "\\pset " "^\\([^[:blank:]]+\\)[[:blank:]]+\\(.+\\)$"
 					     (list 1 2)))
@@ -55,9 +49,7 @@
 
 
 (defun sql-def-create-def-list (name)
-  (let* ((current-sqli-buffer sql-buffer ;(sql-find-sqli-buffer)
-	  ;(get-buffer "*SQL*")
-	  )
+  (let* ((current-sqli-buffer sql-buffer)
 	 (output-settings (sql-redirect-value current-sqli-buffer
 					      "\\pset " "^\\([^[:blank:]]+\\)[[:blank:]]+\\(.+\\)$"
 					      (list 1 2)))
@@ -90,7 +82,6 @@
  (let ((sql-def-buf (get-buffer-create "*SQL Def*"))
        (current-sqli-buffer (sql-find-sqli-buffer))
       (name (sql-def-get-object-name-at-point)))
-(message "%s" current-sqli-buffer)
   (with-current-buffer sql-def-buf
     (SQL-Def-mode)
     (setq sql-buffer current-sqli-buffer)
@@ -104,4 +95,4 @@
   (display-buffer sql-def-buf)
   ))
 
-;(push 'company-sql company-backends) 
+

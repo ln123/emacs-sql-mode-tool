@@ -16,9 +16,7 @@
 
 (defun company-sql-get-from-db (sql-string)
 ;(message "%s" sql-string) 
-  (let* ((current-sqli-buffer (sql-find-sqli-buffer)
-	  ;(get-buffer "*SQL*")
-	  )
+  (let* ((current-sqli-buffer (sql-find-sqli-buffer))
 	 (output-settings (sql-redirect-value current-sqli-buffer
 					      "\\pset " "^\\([^[:blank:]]+\\)[[:blank:]]+\\(.+\\)$"
 					      (list 1 2)))
